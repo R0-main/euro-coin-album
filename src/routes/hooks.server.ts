@@ -1,4 +1,4 @@
-import { themes } from '$lib/themes';
+/* import { themes } from '$lib/eu-contries';
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
@@ -14,3 +14,4 @@ export const handle: Handle = async ({ event, resolve }) => {
 		}
 	});
 };
+ */
