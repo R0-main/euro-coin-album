@@ -1,4 +1,4 @@
-import { vitePreprocess } from '@sveltejs/kit/vite-plugin';
+import { vitePreprocess } from '@sveltejs/kit/vite';
 import vercel from '@sveltejs/adapter-vercel';
 
 /** @type {import('@sveltejs/kit').Config} */
