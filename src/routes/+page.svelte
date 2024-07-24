@@ -10,7 +10,7 @@
 	function setTheme(event: Event) {}
 </script>
 
-<div class="mx-10 w-full">
+<div class="w-full">
 	{#each euCountries as contry}
 		<div class="flex w-full flex-col">
 			<div class="flex w-full flex-col justify-center align-middle">
