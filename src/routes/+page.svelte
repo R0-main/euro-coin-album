@@ -5,7 +5,9 @@
 	import Grid from './grid.svelte';
 	import '../app.css';
 
-	onMount(() => {});
+	onMount(() => {
+		console.log('fwqfqw')
+	});
 
 	function setTheme(event: Event) {}
 </script>
