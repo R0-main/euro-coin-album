@@ -3,19 +3,19 @@
 	import euCountries from '$lib/eu-contries';
 
 	import Grid from './grid.svelte';
-	import '../app.css'
+	import '../app.css';
 
-	onMount(() => {
-		
-	});
+	onMount(() => {});
 
-	function setTheme(event: Event) {
-		
-	}
+	function setTheme(event: Event) {}
 </script>
 
-<div class="mx-auto w-full pt-5">
+<div class="mx-10 w-full">
 	{#each euCountries as contry}
-		<Grid contry={contry} />
+		<div class="flex w-full flex-col">
+			<div class="flex w-full flex-col justify-center align-middle">
+				<Grid {contry} />
+			</div>
+		</div>
 	{/each}
 </div>
