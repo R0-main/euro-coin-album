@@ -38,7 +38,6 @@
 										{contry}
 										coin={Object.keys(euroCoins)[y]}
 										year={i + from}
-										commemorative={false}
 									/>
 								{/each}
 							</tr>
@@ -47,7 +46,7 @@
 				</table>
 			</div>
 
-			<h1 class="my-5 w-full justify-center text-center align-middle text-5xl font-bold">
+			<!-- <h1 class="my-5 w-full justify-center text-center align-middle text-5xl font-bold">
 				<span role="img">🏅 Pièces Commémoratives {contry}</span>
 			</h1>
 
@@ -71,15 +70,15 @@
 										{contry}
 										coin={'2€'}
 										year={i + from}
-										commemorative={true}
-										id={id}
+										commemorative={true.toString()}
+										id={id.toString()}
 									/>
 								{/each}
 							</tr>
 						{/each}
 					</tbody>
 				</table>
-			</div>
+			</div> -->
 		</div>
 	</div>
 </details>
