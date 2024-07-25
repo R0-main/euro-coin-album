@@ -5,8 +5,10 @@
 	export let coin;
 	export let contry;
 	export let year;
+	export let commemorative;
+	export let id = 0;
 
-	const key = contry + coin + year;
+	const key = contry + coin + year + commemorative + id;
 
 	let isSelected = false
 
