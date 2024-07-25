@@ -24,7 +24,7 @@
 </script>
 
 <td
-	class="m-0 h-[100px] w-[100px] justify-center border border-solid border-gray-500 p-0 text-center align-middle"
+	class="m-0 h-[100px] w-[100px] justify-center border-2  border-solid border-gray-500 hover:bg-gray-500 p-0 text-center align-middle"
 	on:click={setSelected}
 	tabindex="0"
 	role="button"

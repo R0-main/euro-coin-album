@@ -1,5 +1,9 @@
 export const contries = [
-    "🇩🇪 Allemagne",
+    "🇩🇪 Allemagne - A",
+    "🇩🇪 Allemagne - D",
+    "🇩🇪 Allemagne - F",
+    "🇩🇪 Allemagne - G",
+    "🇩🇪 Allemagne - J",
     "🇦🇩 Andorre",
     "🇦🇹 Autriche",
     "🇧🇪 Belgique",

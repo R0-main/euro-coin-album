@@ -4,15 +4,9 @@
 
 	import Grid from './grid.svelte';
 	import '../app.css';
-
-	onMount(() => {
-		console.log('fwqfqw')
-	});
-
-	function setTheme(event: Event) {}
 </script>
 
-<div class="w-full">
+<div class="w-full mb-10">
 	{#each euCountries as contry}
 		<div class="flex w-full flex-col">
 			<div class="flex w-full flex-col justify-center align-middle">
