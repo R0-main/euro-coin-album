@@ -2,8 +2,7 @@
 	import euCountries from '$lib/eu-contries';
 	import euroCoins from '$lib/euro-pieces';
 	import Coin from './coin.svelte';
-	import { browser } from '$app/environment';
-	import { onMount } from 'svelte';
+	import { getContext, onMount } from 'svelte';
 
 	export let contry = euCountries[0];
 
@@ -14,7 +13,7 @@
 	 * @type {number[]}
 	 */
 	let total = [];
-
+	
 	const calculatePrice = () => {
 		for (let i = to - from; i < to; i++) {
 			total[i] = 0;
@@ -29,8 +28,11 @@
 		}
 	};
 
+	let addTotal = getContext('addTotal')
+
 	onMount(() => {
 		calculatePrice();
+		addTotal( total.reduce((a, b) => a + b, 0))
 	})
 
 	const commemorativesCount = 5;

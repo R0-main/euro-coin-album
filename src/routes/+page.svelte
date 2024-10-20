@@ -1,9 +1,16 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { setContext } from 'svelte';
 	import euCountries from '$lib/eu-contries';
 
 	import Grid from './grid.svelte';
 	import '../app.css';
+
+	let total = 0
+
+	function addTotal(n: number) {
+		total += n
+	}
+	setContext('addTotal', addTotal)
 </script>
 
 <div class="w-full mb-10">
@@ -14,4 +21,7 @@
 			</div>
 		</div>
 	{/each}
+	<div class="w-full flex justify-center text-4xl font-bold text-black align-middle">
+		<h1 class="mr-2">Total :</h1> {(total / 100).toFixed(2)}€
+	</div>
 </div>
