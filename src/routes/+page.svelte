@@ -11,6 +11,11 @@
 		total += n
 	}
 	setContext('addTotal', addTotal)
+
+	function subTotal(n: number) {
+		total -= n
+	}
+	setContext('subTotal', subTotal)
 </script>
 
 <div class="w-full mb-10">

@@ -1,38 +1,30 @@
-<script>
+<script lang="ts">
 	import euCountries from '$lib/eu-contries';
 	import euroCoins from '$lib/euro-pieces';
 	import Coin from './coin.svelte';
-	import { getContext, onMount } from 'svelte';
+	import { getContext, onMount, setContext } from 'svelte';
 
 	export let contry = euCountries[0];
 
 	const from = 1999;
 	const to = new Date().getFullYear() + 1;
 
-	/**
-	 * @type {number[]}
-	 */
-	let total = [];
-	
-	const calculatePrice = () => {
-		for (let i = to - from; i < to; i++) {
-			total[i] = 0;
-			for (let y = 0; y < Object.keys(euroCoins).reverse().length; y++) {
-				const value = Object.values(euroCoins)[y].value;
-				const coinId = Object.keys(euroCoins).reverse()[y];
-				const storedData = localStorage.getItem(contry + coinId + i);
-				if (storedData !== undefined && storedData !== null) {
-					if (JSON.parse(storedData)) total[i] += value;
-				}
-			}
-		}
-	};
+	let total : number[] = new Array(to - from).fill(0);
+	let addTotal : (n : number) => any = getContext('addTotal')
+	let subTotal : (n : number) => any = getContext('subTotal')
 
-	let addTotal = getContext('addTotal')
+	setContext('addRowTotal', (row : number, n : number) => {
+		if (!total[row])
+			total[row] = 0
+		total[row] += n
+		addTotal(n)
+	})
 
-	onMount(() => {
-		calculatePrice();
-		addTotal( total.reduce((a, b) => a + b, 0))
+	setContext('subRowTotal', (row : number, n : number) => {
+		if (!total[row])
+			total[row] = 0
+		total[row] -= n
+		subTotal(n)
 	})
 
 	const commemorativesCount = 5;
@@ -64,11 +56,12 @@
 									<Coin
 										coinImg={coinData.img}
 										key={contry + Object.keys(euroCoins)[y] + (i + from)}
-										callback={calculatePrice}
+										row={i}
+										value={coinData.value}
 									/>
 								{/each}
 								<th class="text-2xl font-bold">
-										{(total[i + from] / 100).toFixed(2)}€
+										{(total[i] / 100).toFixed(2)}€
 								</th>
 							</tr>
 						{/each}

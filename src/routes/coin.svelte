@@ -1,29 +1,31 @@
-<script>
-	import { onMount } from 'svelte';
+<script lang="ts">
+	import { getContext, onMount } from 'svelte';
 
 	export let coinImg;
-	/**
-	 * @type {() => void}
-	 */
-	export let callback;
-	/**
-	 * @type {string}
-	 */
-	export let key;
+	export let key : string;
+	export let row : number
+	export let value : number;
 
 	let isSelected = false;
+
+	let addRowTotal : (row : number, n : number) => any = getContext('addRowTotal')
+	let subRowTotal : (row : number, n : number) => any = getContext('subRowTotal')
 
 	onMount(() => {
 		const storedData = localStorage.getItem(key);
 		if (storedData !== undefined && storedData !== null) {
 			isSelected = JSON.parse(storedData);
+			if (isSelected)
+				addRowTotal(row, value)
 		}
 	});
 
 	function setSelected() {
+		if (isSelected)
+			subRowTotal(row, value)
+		else addRowTotal(row, value)
 		isSelected = !isSelected;
 		localStorage.setItem(key, JSON.stringify(isSelected));
-		callback()
 	}
 </script>
 
