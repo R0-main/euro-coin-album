@@ -2,7 +2,8 @@
 	import euCountries from '$lib/eu-contries';
 	import euroCoins from '$lib/euro-pieces';
 	import Coin from './coin.svelte';
-	import { browser } from '$app/environment'; // Importer la fonction browser
+	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 
 	export let contry = euCountries[0];
 
@@ -10,42 +11,27 @@
 	const to = new Date().getFullYear() + 1;
 
 	/**
-	 * @param {string} contry
-	 * @param {number} year
+	 * @type {number[]}
 	 */
-	function getValues(contry, year) {
-		if (browser) {
-			let total = 0;
+	let total = [];
+
+	const calculatePrice = () => {
+		for (let i = to - from; i < to; i++) {
+			total[i] = 0;
 			for (let y = 0; y < Object.keys(euroCoins).reverse().length; y++) {
 				const value = Object.values(euroCoins)[y].value;
 				const coinId = Object.keys(euroCoins).reverse()[y];
-				const storedData = localStorage.getItem(contry + coinId + year);
+				const storedData = localStorage.getItem(contry + coinId + i);
 				if (storedData !== undefined && storedData !== null) {
-					if (JSON.parse(storedData)) total += value;
+					if (JSON.parse(storedData)) total[i] += value;
 				}
 			}
-			return total;
-		} else return 0
-	}
-	/**
-	 * @param {string} contry
-	 */
-	function getTotalValue(contry) {
-		if (browser) {
-			let total = 0;
-			for (let i = to - from ; i < to; i++) {
-				for (let y = 0; y < Object.keys(euroCoins).reverse().length; y++) {
-					const value = Object.values(euroCoins)[y].value;
-					const coinId = Object.keys(euroCoins).reverse()[y];
-					const storedData = localStorage.getItem(contry + coinId + i);
-					if (storedData !== undefined && storedData !== null) {
-						if (JSON.parse(storedData)) total += value;
-					}
-				}
-			}
-			return total;
-		} else return 0
-	}
+		}
+	};
+
+	onMount(() => {
+		calculatePrice();
+	})
 
 	const commemorativesCount = 5;
 </script>
@@ -58,7 +44,7 @@
 	</summary>
 	<div class="collapse-content">
 		<div class="flex w-full flex-col justify-center">
-			<div class="flex w-full justify-center">
+			<div class="flex w-full justify-center flex-col">
 				<table class="table-pin-cols table-xs mr-16 text-center">
 					<thead>
 						<tr>
@@ -68,7 +54,7 @@
 							{/each}
 						</tr>
 					</thead>
-					<tbody>
+					<tbody class="w-full">
 						{#each { length: to - from } as _, i}
 							<tr>
 								<th class="text-2xl font-bold">{i + from}</th>
@@ -76,14 +62,19 @@
 									<Coin
 										coinImg={coinData.img}
 										key={contry + Object.keys(euroCoins)[y] + (i + from)}
+										callback={calculatePrice}
 									/>
 								{/each}
-								<th class="text-2xl font-bold">{getValues(contry, i + from) / 100}€</th>
+								<th class="text-2xl font-bold">
+										{(total[i + from] / 100).toFixed(2)}€
+								</th>
 							</tr>
 						{/each}
 					</tbody>
-					{getTotalValue(contry) / 100}
 				</table>
+				<div class="text-3xl font-bold text-black justify-end w-full flex">
+					{(total.reduce((a, b) => a + b, 0) / 100).toFixed(2)}€
+				</div>
 			</div>
 
 			<!-- <h1 class="my-5 w-full justify-center text-center align-middle text-5xl font-bold">

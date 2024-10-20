@@ -1,16 +1,20 @@
 <script>
-	import { onMount } from "svelte";
+	import { onMount } from 'svelte';
 
 	export let coinImg;
 	/**
+	 * @type {() => void}
+	 */
+	export let callback;
+	/**
 	 * @type {string}
 	 */
-	 export let key;
+	export let key;
 
-	let isSelected = false
+	let isSelected = false;
 
 	onMount(() => {
-		const storedData = localStorage.getItem(key)
+		const storedData = localStorage.getItem(key);
 		if (storedData !== undefined && storedData !== null) {
 			isSelected = JSON.parse(storedData);
 		}
@@ -19,11 +23,12 @@
 	function setSelected() {
 		isSelected = !isSelected;
 		localStorage.setItem(key, JSON.stringify(isSelected));
+		callback()
 	}
 </script>
 
 <td
-	class="m-0 h-[100px] w-[100px] justify-center border-2  border-solid border-gray-500 hover:bg-gray-500 p-0 text-center align-middle"
+	class="m-0 h-[100px] w-[100px] justify-center border-2 border-solid border-gray-500 p-0 text-center align-middle hover:bg-gray-500"
 	on:click={setSelected}
 	tabindex="0"
 	role="button"
