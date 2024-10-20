@@ -1,13 +1,12 @@
 export const euroCoins = {
-    "1c" : "1centime.png",
-    "2c" : "2centimes.png",
-    "5c" : "5centimes.png",
-    "10c" : "10centimes.png",
-    "20c" : "20centimes.png",
-    "50c" : "50centimes.png",
-    "1€" : "1euro.png",
-    "2€" : "2euros.png"
+	'1c': { img: '1centime.png', value: 1 },
+	'2c': { img: '2centimes.png', value: 2 },
+	'5c': { img: '5centimes.png', value: 5 },
+	'10c': { img: '10centimes.png', value: 10 },
+	'20c': { img: '20centimes.png', value: 20 },
+	'50c': { img: '50centimes.png', value: 50 },
+	'1€': { img: '1euro.png', value: 100 },
+	'2€': { img: '2euros.png', value: 200 }
 };
-
 
 export default euroCoins;

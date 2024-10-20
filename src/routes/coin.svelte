@@ -2,11 +2,10 @@
 	import { onMount } from "svelte";
 
 	export let coinImg;
-	export let coin;
-	export let contry;
-	export let year;
-	
-	const key = contry + coin + year
+	/**
+	 * @type {string}
+	 */
+	 export let key;
 
 	let isSelected = false
 

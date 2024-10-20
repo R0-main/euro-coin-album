@@ -2,12 +2,52 @@
 	import euCountries from '$lib/eu-contries';
 	import euroCoins from '$lib/euro-pieces';
 	import Coin from './coin.svelte';
+	import { browser } from '$app/environment'; // Importer la fonction browser
+
 	export let contry = euCountries[0];
 
 	const from = 1999;
 	const to = new Date().getFullYear() + 1;
 
-	const commemorativesCount = 5
+	/**
+	 * @param {string} contry
+	 * @param {number} year
+	 */
+	function getValues(contry, year) {
+		if (browser) {
+			let total = 0;
+			for (let y = 0; y < Object.keys(euroCoins).reverse().length; y++) {
+				const value = Object.values(euroCoins)[y].value;
+				const coinId = Object.keys(euroCoins).reverse()[y];
+				const storedData = localStorage.getItem(contry + coinId + year);
+				if (storedData !== undefined && storedData !== null) {
+					if (JSON.parse(storedData)) total += value;
+				}
+			}
+			return total;
+		} else return 0
+	}
+	/**
+	 * @param {string} contry
+	 */
+	function getTotalValue(contry) {
+		if (browser) {
+			let total = 0;
+			for (let i = to - from ; i < to; i++) {
+				for (let y = 0; y < Object.keys(euroCoins).reverse().length; y++) {
+					const value = Object.values(euroCoins)[y].value;
+					const coinId = Object.keys(euroCoins).reverse()[y];
+					const storedData = localStorage.getItem(contry + coinId + i);
+					if (storedData !== undefined && storedData !== null) {
+						if (JSON.parse(storedData)) total += value;
+					}
+				}
+			}
+			return total;
+		} else return 0
+	}
+
+	const commemorativesCount = 5;
 </script>
 
 <details class="collapse bg-base-100 hover:bg-base-200">
@@ -32,17 +72,17 @@
 						{#each { length: to - from } as _, i}
 							<tr>
 								<th class="text-2xl font-bold">{i + from}</th>
-								{#each Object.values(euroCoins).reverse() as coinImg, y}
+								{#each Object.values(euroCoins).reverse() as coinData, y}
 									<Coin
-										{coinImg}
-										{contry}
-										coin={Object.keys(euroCoins)[y]}
-										year={i + from}
+										coinImg={coinData.img}
+										key={contry + Object.keys(euroCoins)[y] + (i + from)}
 									/>
 								{/each}
+								<th class="text-2xl font-bold">{getValues(contry, i + from) / 100}€</th>
 							</tr>
 						{/each}
 					</tbody>
+					{getTotalValue(contry) / 100}
 				</table>
 			</div>
 
