@@ -19,6 +19,9 @@
 		year = coin.year;
 	}
 
+	let addTotal : (n : number) => any = getContext('addTotal')
+	let subTotal : (n : number) => any = getContext('subTotal')
+
 	function handleSubmit(event: any) {
 		if (!coin) {
 			coin = new CommemorativeCoin(contry as string, label as string, year as number);
@@ -26,6 +29,7 @@
 			coin.contry = contry as string;
 			coin.label = label as string;
 			coin.year = year as number;
+			addTotal(200);
 		}
 		coin.save();
 		year = undefined;
@@ -46,6 +50,7 @@
 		if (!coin) return;
 		coin.delete();
 		updateCoins();
+		subTotal(200);
 		closeModal();
 		// coins = CommemorativeCoin.getAll()
 	}
