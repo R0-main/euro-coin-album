@@ -27,18 +27,19 @@
 	function handleSubmit(event: any) {
 		if (!coin) {
 			coin = new CommemorativeCoin(contry as string, label as string, year as number, count as number);
+			addTotal(200);
 		} else {
 			coin.contry = contry as string;
 			coin.label = label as string;
 			coin.year = year as number;
 			coin.count = count as number;
-			addTotal(200);
 		}
 		coin.save();
 		year = undefined;
 		label = undefined;
 		contry = undefined;
 		count = undefined;
+		coin = null;
 		updateCoins();
 		// coins = CommemorativeCoin.getAll()
 	}
