@@ -66,7 +66,7 @@
 			<button
 				type="button"
 				class="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
-				on:click={deleteCoin}>✕</button
+				on:click={closeModal}>✕</button
 			>
 			<h3 class="text-3xl font-bold">Pièce commémorative</h3>
 			<div class="mx-24 mt-10">
