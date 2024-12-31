@@ -18,7 +18,7 @@ export class CommemorativeCoin {
 		let id = coins.findIndex((coin) => coin.uuid == this.uuid);
 		if (id != -1) coins[id] = this;
 		else coins.push(this);
-		coins.sort((a, b) => Math.abs(a.year) - Math.abs(b.year));
+		coins.sort((a, b) => Math.abs(Number(a.year)) - Math.abs(Number(b.year)));
 		localStorage.setItem(CommemorativeCoin.localId, JSON.stringify(coins));
 	}
 

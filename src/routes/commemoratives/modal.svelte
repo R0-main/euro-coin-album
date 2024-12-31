@@ -83,7 +83,7 @@
 					<input
 						bind:value={year}
 						on:scroll|preventDefault
-						type="number"
+						type="text"
 						placeholder="Année"
 						class="input input-bordered w-full"
 					/>
