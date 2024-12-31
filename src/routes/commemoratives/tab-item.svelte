@@ -33,6 +33,7 @@
 		<tr class=" hover cursor-pointer break-all" on:click={showModal}>
 			<th class=" text-2xl">{coin.year || ''}</th>
 			<td class=" text-2xl">{coin.label || ''}</td>
+			<td class="text-2xl">{coin.count || '1'}</td>
 			<td class="flex justify-center text-2xl">{coin.contry || ''}</td>
 		</tr>
 	{/if}

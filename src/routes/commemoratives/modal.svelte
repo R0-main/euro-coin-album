@@ -11,12 +11,14 @@
 	let year: number | undefined;
 	let label: string | undefined;
 	let contry: string | undefined;
+	let count: number | undefined;
 
 	if (coin) {
 		id = 'P' + coin.uuid.replaceAll('-', '');
 		contry = coin.contry;
 		label = coin.label;
 		year = coin.year;
+		count = coin.count;
 	}
 
 	let addTotal : (n : number) => any = getContext('addTotal')
@@ -24,17 +26,19 @@
 
 	function handleSubmit(event: any) {
 		if (!coin) {
-			coin = new CommemorativeCoin(contry as string, label as string, year as number);
+			coin = new CommemorativeCoin(contry as string, label as string, count as number, year as number);
 		} else {
 			coin.contry = contry as string;
 			coin.label = label as string;
 			coin.year = year as number;
+			coin.count = count as number;
 			addTotal(200);
 		}
 		coin.save();
 		year = undefined;
 		label = undefined;
 		contry = undefined;
+		count = undefined;
 		updateCoins();
 		// coins = CommemorativeCoin.getAll()
 	}
@@ -90,6 +94,17 @@
 						bind:value={label}
 						type="text"
 						placeholder="Désignation"
+						class="input input-bordered w-full"
+					/>
+					<div class="label" />
+					<div class="label">
+						<span class="label-text text-2xl">Nombre</span>
+						<button type="button" class="btn btn-neutral btn-active" on:click={() => copyToClipboard(count)}>Copier</button>
+					</div>
+					<input
+						bind:value={count}
+						type="text"
+						placeholder="Nombre"
 						class="input input-bordered w-full"
 					/>
 					<div class="label" />

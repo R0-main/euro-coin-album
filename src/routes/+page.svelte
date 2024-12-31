@@ -113,6 +113,7 @@
 						<tr>
 							<th>Année</th>
 							<th>Désignation</th>
+							<th>Nombre</th>
 							<th class="flex justify-center">Pays</th>
 						</tr>
 					</thead>

@@ -8,6 +8,7 @@ export class CommemorativeCoin {
 		public contry: string,
 		public label: string,
 		public year: number,
+		public count: number,
 		public uuid: string = uuidv4()
 	) {}
 
@@ -33,7 +34,7 @@ export class CommemorativeCoin {
 		let coins = JSON.parse(localStorage.getItem(CommemorativeCoin.localId) as string) || [];
 		return coins.map(
 			(coin: CommemorativeCoin) =>
-				new CommemorativeCoin(coin.contry, coin.label, coin.year, coin.uuid)
+				new CommemorativeCoin(coin.contry, coin.label, coin.year, coin.count, coin.uuid)
 		);
 	}
 }
