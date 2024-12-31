@@ -73,7 +73,7 @@
 				on:click={closeModal}>✕</button
 			>
 			<h3 class="text-3xl font-bold">Pièce commémorative</h3>
-			<div class="mx-24 mt-10">
+			<div class="mx-5 mt-10">
 				<label class="form-control mb-10 h-full w-full justify-center align-middle">
 					<div class="label">
 						<span class="label-text text-2xl">Année</span>
