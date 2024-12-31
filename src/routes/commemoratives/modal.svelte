@@ -26,7 +26,7 @@
 
 	function handleSubmit(event: any) {
 		if (!coin) {
-			coin = new CommemorativeCoin(contry as string, label as string, count as number, year as number);
+			coin = new CommemorativeCoin(contry as string, label as string, year as number, count as number);
 		} else {
 			coin.contry = contry as string;
 			coin.label = label as string;
@@ -81,6 +81,7 @@
 					</div>
 					<input
 						bind:value={year}
+						on:scroll|preventDefault
 						type="number"
 						placeholder="Année"
 						class="input input-bordered w-full"
@@ -103,7 +104,8 @@
 					</div>
 					<input
 						bind:value={count}
-						type="text"
+						on:scroll|preventDefault
+						type="number"
 						placeholder="Nombre"
 						class="input input-bordered w-full"
 					/>
