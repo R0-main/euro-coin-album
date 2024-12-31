@@ -54,6 +54,10 @@
 		closeModal();
 		// coins = CommemorativeCoin.getAll()
 	}
+
+	function copyToClipboard(value : any) {
+		navigator.clipboard.writeText(value as string)
+	}
 </script>
 
 <dialog id={id + '_modal'} class="modal">
@@ -69,7 +73,7 @@
 				<label class="form-control mb-10 h-full w-full justify-center align-middle">
 					<div class="label">
 						<span class="label-text text-2xl">Année</span>
-						<button type="button" class="btn btn-neutral btn-active">Copier</button>
+						<button type="button" class="btn btn-neutral btn-active" on:click={() => copyToClipboard(year)}>Copier</button>
 					</div>
 					<input
 						bind:value={year}
@@ -80,7 +84,7 @@
 					<div class="label" />
 					<div class="label">
 						<span class="label-text text-2xl">Désignation</span>
-						<button type="button" class="btn btn-neutral btn-active">Copier</button>
+						<button type="button" class="btn btn-neutral btn-active" on:click={() => copyToClipboard(label)}>Copier</button>
 					</div>
 					<input
 						bind:value={label}
@@ -91,7 +95,7 @@
 					<div class="label" />
 					<div class="label">
 						<span class="label-text text-2xl">Pays</span>
-						<button type="button" class="btn btn-neutral btn-active">Copier</button>
+						<button type="button" class="btn btn-neutral btn-active" on:click={() => copyToClipboard(contry)}>Copier</button>
 					</div>
 					<select bind:value={contry} class="select select-bordered select-lg w-full text-3xl">
 						<option disabled selected>Pays</option>
