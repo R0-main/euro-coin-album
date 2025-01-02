@@ -8,7 +8,7 @@ export class CommemorativeCoin {
 		public contry: string,
 		public label: string,
 		public year: number,
-		public count: number,
+		public count: number = 1,
 		public uuid: string = uuidv4()
 	) {}
 

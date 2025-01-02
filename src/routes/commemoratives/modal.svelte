@@ -27,8 +27,9 @@
 	function handleSubmit(event: any) {
 		if (!coin) {
 			coin = new CommemorativeCoin(contry as string, label as string, year as number, count as number);
-			addTotal(200);
+			addTotal(200 * coin.count);
 		} else {
+			subTotal(200 * (coin.count - (count || 0)))
 			coin.contry = contry as string;
 			coin.label = label as string;
 			coin.year = year as number;
@@ -55,7 +56,7 @@
 		if (!coin) return;
 		coin.delete();
 		updateCoins();
-		subTotal(200);
+		subTotal(200 * coin.count);
 		closeModal();
 		// coins = CommemorativeCoin.getAll()
 	}

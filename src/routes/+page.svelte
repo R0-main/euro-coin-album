@@ -16,7 +16,9 @@
 
 	onMount(() => {
 		updateCoins();
-		total += $coins.length * 2 * 100;
+		$coins.forEach(coin => {
+			total += coin.count * 200;
+		})
 	});
 
 	function addTotal(n: number) {
@@ -56,10 +58,12 @@
 			</div>
 		</div>
 	{/each}
+	{#key total}
 	<div class="flex w-full justify-center align-middle text-4xl font-bold text-black">
 		<h1 class="mr-2">Total :</h1>
 		{(total / 100).toFixed(2)}€
 	</div>
+	{/key}
 	<details class="collapse mt-10 bg-base-100 hover:bg-base-200">
 		<summary class="collapse-title text-xl font-medium"
 			><h1 class="my-5 w-full justify-center text-center align-middle text-5xl font-bold">
