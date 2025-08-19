@@ -14,8 +14,8 @@ export class CommemorativeCoin {
 
 	public save() {
 		if (!localStorage) return;
-		let coins = CommemorativeCoin.getAll() || [];
-		let id = coins.findIndex((coin) => coin.uuid == this.uuid);
+		const coins = CommemorativeCoin.getAll() || [];
+		const id = coins.findIndex((coin) => coin.uuid == this.uuid);
 		if (id != -1) coins[id] = this;
 		else coins.push(this);
 		coins.sort((a, b) => Math.abs(Number(a.year)) - Math.abs(Number(b.year)));
