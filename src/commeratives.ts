@@ -1,4 +1,3 @@
-import { coins } from '$lib/store';
 import { uuidv4 } from './utils';
 
 export class CommemorativeCoin {

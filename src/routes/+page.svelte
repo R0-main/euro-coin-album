@@ -10,8 +10,12 @@
 	import { coins, search } from '$lib/store';
 
 	let total = 0;
+	let commemorativeCount = 0;
+
 	function updateCoins() {
-		coins.set(CommemorativeCoin.getAll());
+		let comm = CommemorativeCoin.getAll()
+		coins.set(comm);
+		commemorativeCount = comm.length;
 	}
 
 	onMount(() => {
@@ -61,7 +65,7 @@
 	{#key total}
 		<div class="flex w-full justify-center align-middle text-4xl font-bold text-black">
 			<h1 class="mr-2">Total :</h1>
-			{(((total) / 100)- (CommemorativeCoin.getAll().length * 2)).toFixed(2)}€
+			{(((total) / 100)- (commemorativeCount * 2)).toFixed(2)}€
 		</div>
 	{/key}
 	<details class="collapse mt-10 bg-base-100 hover:bg-base-200">
@@ -72,7 +76,7 @@
 			{#key total}
 				<div class="flex w-full justify-center align-middle text-4xl font-bold text-black">
 					<h1 class="mr-2">Total Pièces Commémoratives :</h1>
-					{(CommemorativeCoin.getAll().length * 2).toFixed(2)}€
+					{(commemorativeCount * 2).toFixed(2)}€
 				</div>
 			{/key}
 		</summary>
