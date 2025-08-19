@@ -59,16 +59,22 @@
 		</div>
 	{/each}
 	{#key total}
-	<div class="flex w-full justify-center align-middle text-4xl font-bold text-black">
-		<h1 class="mr-2">Total :</h1>
-		{(total / 100).toFixed(2)}€
-	</div>
+		<div class="flex w-full justify-center align-middle text-4xl font-bold text-black">
+			<h1 class="mr-2">Total :</h1>
+			{(((total) / 100)- (CommemorativeCoin.getAll().length * 2)).toFixed(2)}€
+		</div>
 	{/key}
 	<details class="collapse mt-10 bg-base-100 hover:bg-base-200">
 		<summary class="collapse-title text-xl font-medium"
 			><h1 class="my-5 w-full justify-center text-center align-middle text-5xl font-bold">
 				<span role="img">🏅 Pièces Commémoratives</span>
 			</h1>
+			{#key total}
+				<div class="flex w-full justify-center align-middle text-4xl font-bold text-black">
+					<h1 class="mr-2">Total Pièces Commémoratives :</h1>
+					{(CommemorativeCoin.getAll().length * 2).toFixed(2)}€
+				</div>
+			{/key}
 		</summary>
 		<div class="collapse-content flex flex-col justify-center gap-10">
 			<!-- @ts-ignore -->
