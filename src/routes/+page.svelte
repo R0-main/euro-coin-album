@@ -15,7 +15,10 @@
 	function updateCoins() {
 		let comm = CommemorativeCoin.getAll()
 		coins.set(comm);
-		commemorativeCount = comm.length;
+		comm.forEach(coin => {
+			commemorativeCount += coin.count * 2;
+		});
+		total -= commemorativeCount * 100;
 	}
 
 	onMount(() => {
@@ -25,13 +28,21 @@
 		})
 	});
 
-	function addTotal(n: number) {
-		total += n;
+	function addTotal(n: number, isCommemorative: boolean = false) {
+		if (isCommemorative) {
+			commemorativeCount += n;
+		}
+		else
+			total += n;
 	}
 	setContext('addTotal', addTotal);
 
-	function subTotal(n: number) {
-		total -= n;
+	function subTotal(n: number, isCommemorative: boolean = false) {
+		if (isCommemorative) {
+			commemorativeCount -= n;
+		}
+		else
+			total -= n;
 	}
 	setContext('subTotal', subTotal);
 
@@ -65,7 +76,7 @@
 	{#key total}
 		<div class="flex w-full justify-center align-middle text-4xl font-bold text-black">
 			<h1 class="mr-2">Total :</h1>
-			{(((total) / 100)- (commemorativeCount * 2)).toFixed(2)}€
+			{(((total) / 100)).toFixed(2)}€
 		</div>
 	{/key}
 	<details class="collapse mt-10 bg-base-100 hover:bg-base-200">
@@ -76,7 +87,7 @@
 			{#key total}
 				<div class="flex w-full justify-center align-middle text-4xl font-bold text-black">
 					<h1 class="mr-2">Total Pièces Commémoratives :</h1>
-					{(commemorativeCount * 2).toFixed(2)}€
+					{(commemorativeCount).toFixed(2)}€
 				</div>
 			{/key}
 		</summary>
