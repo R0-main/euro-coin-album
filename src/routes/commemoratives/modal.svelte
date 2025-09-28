@@ -36,12 +36,12 @@
 			coin.count = count as number;
 		}
 		coin.save();
+		updateCoins();
 		year = undefined;
 		label = undefined;
 		contry = undefined;
 		count = undefined;
 		coin = null;
-		// updateCoins();
 		// coins = CommemorativeCoin.getAll()
 	}
 
@@ -57,6 +57,8 @@
 		coin.delete();
 		// updateCoins();
 		subTotal(2 * coin.count, true);
+		
+		updateCoins();
 		closeModal();
 		// coins = CommemorativeCoin.getAll()
 	}

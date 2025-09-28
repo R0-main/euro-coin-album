@@ -10,23 +10,25 @@
 	import { coins, search } from '$lib/store';
 
 	let total = 0;
-	let commemorativeCount = 0;
+    let commemorativeCount = 0;
 
-	function updateCoins() {
-		let comm = CommemorativeCoin.getAll()
-		coins.set(comm);
-		comm.forEach(coin => {
-			commemorativeCount += coin.count * 2;
-		});
-		total -= commemorativeCount * 100;
-	}
+    function updateCoins() {
+        let comm = CommemorativeCoin.getAll();
+        coins.set(comm);
+        
+        // Recalculate commemorative count
+        commemorativeCount = 0;
+        comm.forEach(coin => {
+            commemorativeCount += coin.count * 2;
+        });
+    }
 
-	onMount(() => {
-		updateCoins();
-		$coins.forEach(coin => {
-			total += coin.count * 200;
-		})
-	});
+    onMount(() => {
+        updateCoins();
+        $coins.forEach(coin => {
+            total += coin.count * 200;
+        });
+    });
 
 	function addTotal(n: number, isCommemorative: boolean = false) {
 		if (isCommemorative) {
