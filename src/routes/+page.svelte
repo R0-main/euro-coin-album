@@ -11,6 +11,7 @@
 
 	let total = 0;
     let commemorativeCount = 0;
+    let showBackupButton = false;
 
     function updateCoins() {
         let comm = CommemorativeCoin.getAll();
@@ -28,6 +29,15 @@
         $coins.forEach(coin => {
             total += coin.count * 200;
         });
+
+        // Expose function to window to enable the button
+        (window as any).showBackup = () => {
+            showBackupButton = true;
+            console.log("Backup & Import buttons enabled!");
+        };
+
+        console.log("%c👋 Hey developer/curious user!", "font-size: 20px; font-weight: bold;");
+        console.log("Want to backup or import your data? Type %cshowBackup()%c in this console and press Enter.", "background: #eee; padding: 2px 5px; border-radius: 4px; font-family: monospace;", "");
     });
 
 	function addTotal(n: number, isCommemorative: boolean = false) {
@@ -65,7 +75,104 @@
 
 	// 	// Ici, vous pouvez ajouter des actions à effectuer avec la valeur `query`
 	// }
+
+    function backupData() {
+        const data: Record<string, string> = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key) {
+                const value = localStorage.getItem(key);
+                if (value) {
+                    data[key] = value;
+                }
+            }
+        }
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `euro-coin-album-backup-${new Date().toISOString().split('T')[0]}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function importData(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (!input.files || input.files.length === 0) return;
+
+        const file = input.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const data = JSON.parse(e.target?.result as string);
+                if (confirm("Cela va écraser toutes vos données actuelles. Continuer ?")) {
+                    localStorage.clear();
+                    for (const key in data) {
+                        localStorage.setItem(key, data[key]);
+                    }
+                    window.location.reload();
+                }
+            } catch (err) {
+                console.error("Failed to import data:", err);
+                alert("Erreur lors de l'importation des données : fichier invalide.");
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    function triggerImport() {
+        document.getElementById('import-input')?.click();
+    }
 </script>
+
+{#if showBackupButton}
+<div class="fixed right-8 top-8 z-50 flex flex-col gap-4">
+    <button
+        class="text-gray-600 hover:text-black hover:scale-110 transition-all"
+        on:click={backupData}
+        title="Télécharger la sauvegarde"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+            stroke="currentColor"
+            class="h-10 w-10"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M16.5 12 12 16.5m0 0L7.5 12m4.5 4.5V3"
+            />
+        </svg>
+    </button>
+    
+    <button
+        class="text-gray-600 hover:text-black hover:scale-110 transition-all"
+        on:click={triggerImport}
+        title="Importer une sauvegarde"
+    >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="2.5"
+            stroke="currentColor"
+            class="h-10 w-10"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5m-13.5-9L12 3m0 0 4.5 4.5M12 3v13.5"
+            />
+        </svg>
+    </button>
+    <input type="file" id="import-input" class="hidden" accept=".json" on:change={importData} />
+</div>
+{/if}
 
 <div class="mb-10 w-full">
 	{#each euCountries as contry}
