@@ -25,6 +25,9 @@ export const contries = [
     "🇵🇹 Portugal",
     "🇸🇰 Slovaquie",
     "🇸🇮 Slovénie",
+    "🇧🇬 Bulgarie",
+    "🇻🇦 Vatican",
+    "🇸🇲 Saint-Marin"
 ];
 
 
