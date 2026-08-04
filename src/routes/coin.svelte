@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { getContext, onDestroy, onMount } from 'svelte';
+	import { emptyDetails, hasDetails, loadDetails, type CoinDetails } from '$lib/coin-details';
+	import CoinDetailsPanel from './coin-details-panel.svelte';
 
 	export let coinImg;
 	export let key : string;
@@ -15,6 +17,9 @@
 	let isNotMinted = false;
 	let longPressTimer : ReturnType<typeof setTimeout> | undefined;
 	let longPressFired = false;
+	let hovered = false;
+	let cell : HTMLTableCellElement;
+	let details : CoinDetails = emptyDetails();
 
 	let addRowTotal : (row : number, n : number) => any = getContext('addRowTotal')
 	let subRowTotal : (row : number, n : number) => any = getContext('subRowTotal')
@@ -33,6 +38,8 @@
 
 		if (isSelected && !isNotMinted)
 			addRowTotal(row, value)
+
+		details = loadDetails(key);
 	});
 
 	onDestroy(cancelLongPress);
@@ -102,7 +109,8 @@
 </script>
 
 <td
-	class="m-0 h-[100px] w-[100px] justify-center border-2 border-solid border-gray-500 p-0 text-center align-middle {isNotMinted
+	bind:this={cell}
+	class="relative m-0 h-[100px] w-[100px] justify-center border-2 border-solid border-gray-500 p-0 text-center align-middle {isNotMinted
 		? 'bg-red-50 hover:bg-red-100'
 		: 'hover:bg-gray-500'}"
 	on:click={setSelected}
@@ -111,6 +119,8 @@
 	on:touchend={cancelLongPress}
 	on:touchmove={cancelLongPress}
 	on:touchcancel={cancelLongPress}
+	on:mouseenter={() => (hovered = true)}
+	on:mouseleave={() => (hovered = false)}
 	title={isNotMinted
 		? "Pièce jamais éditée cette année-là — cliquez pour enlever la croix"
 		: "Clic : j'ai cette pièce — Clic droit : cette pièce n'a jamais été éditée"}
@@ -131,5 +141,14 @@
 		</svg>
 	{:else if isSelected}
 		<img class=" h-full w-full" src={coinImg} alt="Coin" />
+		{#if hasDetails(details)}
+			<span
+				class="pointer-events-none absolute right-1 top-1 h-3 w-3 rounded-full border border-white bg-amber-500"
+				title="Informations saisies"
+			/>
+		{/if}
+		{#if hovered}
+			<CoinDetailsPanel storageKey={key} anchor={cell} bind:details />
+		{/if}
 	{/if}
 </td>
