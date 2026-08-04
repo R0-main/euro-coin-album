@@ -39,6 +39,13 @@
 	<div class="collapse-content">
 		<div class="flex w-full flex-col justify-center">
 			<div class="flex w-full justify-center flex-col">
+				<div class="mb-4 flex w-full justify-center gap-6 text-lg text-gray-600">
+					<span><b>Clic</b> : j'ai la pièce</span>
+					<span>
+						<b>Clic droit</b> (ou appui long) :
+						<span class="font-bold text-red-600">✕</span> pièce jamais éditée
+					</span>
+				</div>
 				<table class="table-pin-cols table-xs mr-16 text-center">
 					<thead>
 						<tr>
