@@ -45,19 +45,6 @@
 	<div class="collapse-content">
 		<div class="flex w-full flex-col justify-center">
 			<div class="flex w-full justify-center flex-col">
-				<div class="mb-4 flex w-full flex-col items-center gap-1 text-lg text-gray-600">
-					<div class="flex gap-6">
-						<span><b>Clic</b> : j'ai la pièce</span>
-						<span>
-							<b>Clic droit</b> (ou appui long) :
-							<span class="font-bold text-red-600">✕</span> pièce jamais éditée
-						</span>
-					</div>
-					<span class="text-base">
-						Les <span class="font-bold text-red-600">✕</span> déjà en place indiquent les années
-						où la pièce n'a jamais existé — vous pouvez les enlever d'un clic.
-					</span>
-				</div>
 				<table class="table-pin-cols table-xs mr-16 text-center">
 					<thead>
 						<tr>
