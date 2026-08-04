@@ -5,6 +5,8 @@
 	export let key : string;
 	export let row : number
 	export let value : number;
+	/** Croix affichée par défaut quand la pièce n'a jamais été éditée. */
+	export let defaultNotMinted = false;
 
 	const notMintedKey = key + '-notminted';
 	const longPressDelay = 600;
@@ -18,16 +20,19 @@
 	let subRowTotal : (row : number, n : number) => any = getContext('subRowTotal')
 
 	onMount(() => {
+		const storedData = localStorage.getItem(key);
+		if (storedData !== undefined && storedData !== null)
+			isSelected = JSON.parse(storedData);
+
 		const storedNotMinted = localStorage.getItem(notMintedKey);
 		if (storedNotMinted !== undefined && storedNotMinted !== null)
+			// Le choix de l'utilisateur prime toujours sur les données de frappe.
 			isNotMinted = JSON.parse(storedNotMinted);
+		// ...sinon la croix par défaut, sauf si la pièce est déjà cochée comme possédée.
+		else if (!isSelected) isNotMinted = defaultNotMinted;
 
-		const storedData = localStorage.getItem(key);
-		if (storedData !== undefined && storedData !== null) {
-			isSelected = JSON.parse(storedData);
-			if (isSelected && !isNotMinted)
-				addRowTotal(row, value)
-		}
+		if (isSelected && !isNotMinted)
+			addRowTotal(row, value)
 	});
 
 	onDestroy(cancelLongPress);
