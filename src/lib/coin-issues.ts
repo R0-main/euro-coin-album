@@ -21,6 +21,17 @@ export type Denomination = keyof typeof euroCoins;
  *   vague datent leurs pièces de l'année d'émission, donc 2002 au plus tôt.
  * - Monaco 2003 : les 1, 2 et 5 centimes n'ont pas été émis (Wikipédia,
  *   « Monégasque euro coins »).
+ * - Estonie 2013 et 2014 : aucune pièce émise, et aucun coffret complet non plus
+ *   (Wikipédia, « Estonian euro coins » : coffrets complets uniquement en 2011,
+ *   2016, 2018 et 2022). Les pièces de collection en argent de ces années-là ne
+ *   font pas partie des huit valeurs de la grille.
+ * - Estonie 2012 : seuls les 1 et 2 centimes ont été frappés (commande de la
+ *   Banque d'Estonie à la Monnaie royale des Pays-Bas).
+ *
+ * Les trous restants ne sont volontairement pas renseignés : les sources
+ * consultables ne permettent pas de distinguer « millésime inexistant » de
+ * « frappé uniquement en coffret » pour la Lettonie, la Lituanie, Chypre, Malte
+ * ou Monaco après 2003. Mieux vaut une case vide à cocher qu'une croix fausse.
  */
 
 /** Premier millésime existant pour chaque pays de la grille. */
@@ -57,12 +68,29 @@ export const firstYear: Record<string, number> = {
 };
 
 /**
+ * Années entières sans aucune pièce, alors que le pays frappait déjà des euros.
+ *
+ * Pour ajouter un trou : `'🇽🇽 Pays': [2013, 2014]`.
+ */
+export const notIssuedYears: Record<string, number[]> = {
+	'🇪🇪 Estonie': [2013, 2014]
+};
+
+/**
  * Millésimes qui n'existent pour aucune émission (ni circulation, ni coffret),
- * alors que le pays frappait déjà des euros cette année-là.
+ * pour une valeur faciale précise.
  *
  * Pour ajouter un trou : `'🇽🇽 Pays': { '1c': [2003, 2004] }`.
  */
 export const notIssued: Record<string, Partial<Record<Denomination, number[]>>> = {
+	'🇪🇪 Estonie': {
+		'5c': [2012],
+		'10c': [2012],
+		'20c': [2012],
+		'50c': [2012],
+		'1€': [2012],
+		'2€': [2012]
+	},
 	'🇲🇨 Monaco': { '1c': [2003], '2c': [2003], '5c': [2003] }
 };
 
@@ -70,6 +98,8 @@ export const notIssued: Record<string, Partial<Record<Denomination, number[]>>> 
 export function isIssued(contry: string, coin: Denomination, year: number): boolean {
 	const start = firstYear[contry];
 	if (start !== undefined && year < start) return false;
+
+	if (notIssuedYears[contry]?.includes(year)) return false;
 
 	const gaps = notIssued[contry]?.[coin];
 	if (gaps !== undefined && gaps.includes(year)) return false;
