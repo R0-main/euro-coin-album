@@ -40,6 +40,8 @@
 	on:click|stopPropagation
 	on:mousedown|stopPropagation
 	on:keydown|stopPropagation
+	on:contextmenu|stopPropagation
+	on:touchstart|stopPropagation
 >
 	<span class="text-sm font-bold">Nombre de pièces émises</span>
 	<input

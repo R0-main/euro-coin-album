@@ -1,10 +1,16 @@
 <script lang="ts">
 	import euCountries from '$lib/eu-contries';
 	import euroCoins from '$lib/euro-pieces';
+	import { isIssued, type Denomination } from '$lib/coin-issues';
 	import Coin from './coin.svelte';
 	import { getContext, onMount, setContext } from 'svelte';
 
 	export let contry = euCountries[0];
+
+	// Les colonnes sont affichées de la plus grosse valeur à la plus petite.
+	// Attention : la clé de sauvegarde, elle, utilise l'ordre non inversé depuis
+	// toujours — la changer casserait les albums déjà enregistrés.
+	const displayedCoins = Object.keys(euroCoins).reverse() as Denomination[];
 
 	const from = 1999;
 	const to = new Date().getFullYear() + 1;
@@ -58,6 +64,7 @@
 										key={contry + Object.keys(euroCoins)[y] + (i + from)}
 										row={i}
 										value={coinData.value}
+										defaultNotMinted={!isIssued(contry, displayedCoins[y], i + from)}
 									/>
 								{/each}
 								<th class="text-2xl font-bold">

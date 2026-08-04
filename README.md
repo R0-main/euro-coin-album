@@ -5,6 +5,8 @@ Euro Coin Album is a SvelteKit application that helps collectors keep track of t
 ## Key Features
 
 - **Interactive yearly grid** – Toggle each coin cell to indicate whether you own it; totals per year and an overall total are updated instantly.
+- **"Never minted" marker** – Right-click (or long-press on touch devices) a cell to stamp it with a red cross, meaning that coin was never issued that year. A crossed cell counts for nothing in the totals, and a plain left click clears the cross again.
+- **Crosses pre-filled from issuance data** – Cells are crossed by default for years when a country had no euro coins at all (Croatia before 2023, Bulgaria before 2026, Andorra before 2014…), based on the dataset in `src/lib/coin-issues.ts`. Nothing is written to storage: your own click always wins and is the only thing saved.
 - **Commemorative coin manager** – Add, edit, search, and delete commemorative €2 coins with a modal form backed by local storage.
 - **Built with modern tooling** – Uses SvelteKit, Tailwind CSS, and DaisyUI for a responsive, component-driven experience.
 
@@ -59,6 +61,8 @@ src/
 ## Usage Notes
 
 - All selections and commemorative entries are stored in the browser's `localStorage`. Clearing browser data will reset the album.
+- A cell can be in one of three states: empty, owned (coin image) or never minted (red cross). The "never minted" flag lives under the cell's storage key suffixed with `-notminted`, so existing backups stay compatible.
+- The default cross is computed from `src/lib/coin-issues.ts`, never stored. A cell already marked as owned is never crossed automatically, and clicking any cross writes an explicit override that survives future data updates. A coin struck for collector sets only (Finnish, Dutch or Italian 1c/2c of recent years) still exists as a millésime, so it is *not* crossed — only years with no coin at all are. Add a documented gap with `notIssued['🇽🇽 Pays'] = { '1c': [2003] }`.
 - Countries and mint marks can be customised by editing `src/lib/eu-contries.ts`.
 - The application is optimised for desktop usage; mobile behaviour depends on your Tailwind/DaisyUI theme configuration.
 
