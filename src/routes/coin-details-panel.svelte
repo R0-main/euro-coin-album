@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { saveDetails, type CoinDetails } from '$lib/coin-details';
+	import { formatMintage, parseMintage, saveDetails, type CoinDetails } from '$lib/coin-details';
 
 	export let storageKey: string;
 	export let anchor: HTMLElement;
@@ -24,6 +24,20 @@
 
 	$: height, anchor, place();
 
+	// Le champ est en texte pour pouvoir afficher les milliers séparés pendant
+	// la saisie ; seuls les chiffres sont conservés dans les données.
+	$: mintageText = formatMintage(details.mintage);
+
+	function onMintageInput(event: Event) {
+		const input = event.currentTarget as HTMLInputElement;
+		const mintage = parseMintage(input.value);
+		// On reformate tout de suite le champ, même quand la valeur numérique
+		// n'a pas changé (chiffre invalide tapé, séparateur supprimé…).
+		input.value = formatMintage(mintage);
+		details.mintage = mintage;
+		persist();
+	}
+
 	function persist() {
 		saveDetails(storageKey, details);
 	}
@@ -45,15 +59,15 @@
 >
 	<span class="text-sm font-bold">Nombre de pièces émises</span>
 	<input
-		type="number"
-		min="0"
-		placeholder="ex : 5000000"
+		type="text"
+		inputmode="numeric"
+		placeholder="ex : 5 000 000"
 		class="input input-bordered input-sm w-full"
-		bind:value={details.mintage}
-		on:input={persist}
+		value={mintageText}
+		on:input={onMintageInput}
 	/>
 	{#if details.mintage !== null}
-		<span class="text-xs opacity-60">{details.mintage.toLocaleString('fr-FR')} pièces</span>
+		<span class="text-xs opacity-60">{formatMintage(details.mintage)} pièces</span>
 	{/if}
 	<span class="mt-2 text-sm font-bold">Notes</span>
 	<textarea
